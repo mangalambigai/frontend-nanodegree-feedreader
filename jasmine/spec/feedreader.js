@@ -76,9 +76,8 @@ $(function() {
      */
     var val;
 
-    /* This test suite is about "Initial Entries" */
+    /* This test suite is about the Initial Entries */
     describe('Initial Entries', function() {
-
         /* loadFeed() is asynchronous so this test requires
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
@@ -93,13 +92,14 @@ $(function() {
          * a single .entry element within the .feed container.
          */
         it('are loaded', function(done) {
-            expect($('.feed .entry').length).not.toBe(0);
-            val = $('.feed .entry').html();
+            var $firstentry = $('.feed .entry');
+            expect($firstentry.length).not.toBe(0);
+            val = $firstentry.html();
             done();
         });
     });
 
-    /* This test suite is about "New Feed Selection"*/
+    /* This test suite is about New Feed Selection*/
     describe('New Feed Selection', function() {
         beforeEach(function (done) {
             loadFeed(1, function() {
@@ -111,11 +111,11 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          */
         it('changes the content', function(done) {
-            expect($('.feed .entry').length).not.toBe(0);
-            var val2 = $('.feed .entry').html();
+            var $firstentry = $('.feed .entry');
+            expect($firstentry.length).not.toBe(0);
+            var val2 = $firstentry.html();
             expect(val2).not.toBe(val);
             done();
         });
-
     });
 }());
