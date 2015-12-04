@@ -71,6 +71,11 @@ $(function() {
         });
     });
 
+    /* This variable holds the first entry's value for the 'New Feed Selection'
+     * test suite
+     */
+    var val;
+
     /* This test suite is about "Initial Entries" */
     describe('Initial Entries', function() {
 
@@ -94,10 +99,23 @@ $(function() {
         });
     });
 
-    /* TODO: Write a new test suite named "New Feed Selection"
+    /* This test suite is about "New Feed Selection"*/
+    describe('New Feed Selection', function() {
+        beforeEach(function (done) {
+            loadFeed(1, function() {
+                done();
+            });
+        });
 
-        /* TODO: Write a test that ensures when a new feed is loaded
+        /* This test ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
          */
+        it('changes the content', function(done) {
+            expect($('.feed .entry').length).not.toBe(0);
+            var val2 = $('.feed .entry').html();
+            expect(val2).not.toBe(val);
+            done();
+        });
+
+    });
 }());
