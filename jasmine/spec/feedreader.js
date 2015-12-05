@@ -86,32 +86,34 @@ $(function() {
          * a single .entry element within the .feed container.
          */
         it('are loaded', function(done) {
-            expect($('.feed .entry').length).not.toBe(0);
+            expect($('.feed .entry').length).toBeGreaterThan(0);
             done();
         });
     });
 
     /* This test suite is about New Feed Selection*/
     describe('New Feed Selection', function() {
-        var feedval;
-        /* Load the first feed - beforeEach executes before 'it'*/
+        var $feedval;
+        /* Load the first feed - beforeEach executes before 'it',
+         * and saves the feed's content in feedval*/
         beforeEach(function(done) {
-            loadFeed(0, done);
+            loadFeed(0, function() {
+                $feedval = $('.feed').html();
+                done();
+            });
         });
 
-        /* afterEach executes after 'it'.
+        /* Second feed is loaded here
          * This test ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
+         * We just make sure that feed's content is not the same as
+         * the old one stored in feedval.
          */
-        afterEach(function(done) {
-            expect($('.feed').html()).not.toEqual(feedval);
-            done();
-        });
-
-        /* Second feed is loaded here*/
         it('changes the content', function(done) {
-            feedval = $('.feed').html();
-            loadFeed(1, done);
+            loadFeed(1, function() {
+                expect($('.feed').html()).not.toEqual($feedval);
+                done();
+            });
         });
     });
 
@@ -124,7 +126,7 @@ $(function() {
         it('is present', function() {
             var $countelements = $('.feed .entry .count');
             expect($countelements).toBeDefined();
-            expect($countelements.length).not.toBe(0);
+            expect($countelements.length).toBeGreaterThan(0);
             $countelements.each(function() {
                 expect($(this).text()).not.toBe('');
             });
