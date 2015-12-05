@@ -33,7 +33,7 @@ $(function() {
                 expect(feed.url).toBeDefined();
                 expect(feed.url.trim()).not.toBe('');
             });
-        })
+        });
 
         /* This test loops through each feed
          * in the allFeeds object and ensures it has a name defined
@@ -71,10 +71,6 @@ $(function() {
         });
     });
 
-    /* This variable holds the first entry's value for the 'New Feed Selection'
-     * test suite
-     */
-    var val;
 
     /* This test suite is about the Initial Entries */
     describe('Initial Entries', function() {
@@ -83,39 +79,39 @@ $(function() {
          */
 
         beforeEach(function (done) {
-            loadFeed(0, function() {
-                done();
-            });
+            loadFeed(0, done);
         });
         /* This test ensures that when the loadFeed
          * function is called and completes its work, there is at least
          * a single .entry element within the .feed container.
          */
         it('are loaded', function(done) {
-            var $entries = $('.feed .entry');
-            expect($entries).not.toBe(0);
-            val = $entries.html();
+            expect($('.feed .entry').length).not.toBe(0);
             done();
         });
     });
 
     /* This test suite is about New Feed Selection*/
     describe('New Feed Selection', function() {
-        beforeEach(function (done) {
-            loadFeed(1, function() {
-                done();
-            });
+        var feedval;
+        /* Load the first feed - beforeEach executes before 'it'*/
+        beforeEach(function(done) {
+            loadFeed(0, done);
         });
 
-        /* This test ensures when a new feed is loaded
+        /* afterEach executes after 'it'.
+         * This test ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          */
-        it('changes the content', function(done) {
-            var $entries = $('.feed .entry');
-            expect($entries.length).not.toBe(0);
-            var val2 = $entries.html();
-            expect(val2).not.toBe(val);
+        afterEach(function(done) {
+            expect($('.feed').html()).not.toEqual(feedval);
             done();
+        });
+
+        /* Second feed is loaded here*/
+        it('changes the content', function(done) {
+            feedval = $('.feed').html();
+            loadFeed(1, done);
         });
     });
 
@@ -123,7 +119,6 @@ $(function() {
      * a counter that shows how many times the entry's link is clicked.
      */
     describe('Click Counter', function() {
-
 
         /* This test ensures that the counter is present and not empty*/
         it('is present', function() {
